@@ -1,17 +1,9 @@
-from flask import Flask, request, render_template, redirect, url_for
-import os, json, boto
-#import sys
-#from datetime import date
+from flask import Flask, request, render_template
 from scipy.sparse import hstack
-from dill import pickle
 import pickle
-import os
-from datetime import date
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 import tempfile
-
-
 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -24,9 +16,6 @@ conn = S3Connection()
 #AWS_ACCESS_KEY_ID = AKIAJPYNQBFLNNVKU3UQ
 #AWS_SECRET_ACCESS_KEY = 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
 mybucket = conn.get_bucket('patent-model-data')
-
-
-
 
 
 @app.route('/')
@@ -77,15 +66,11 @@ def submit_query():
         feature_vector = hstack([title_vector, abstract_vector])
         feature_vector = hstack([feature_vector, claims_vector])
 
-        #path = config.get_classifier_path('SGD2016-05-03', False)
         classifier = pickle.load(download('SGD2016-05-03'))
-
 
         group = classifier.predict(feature_vector)
 
         return render_template('query.html', group=group)
-
-
 
 if __name__ == '__main__':
     from os import environ
