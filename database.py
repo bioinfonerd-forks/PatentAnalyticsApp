@@ -22,11 +22,14 @@ class Database(object):
         bson_object = dumps([vocab])
         return bson_object
 
-    def unserialize(self, bson_object):
-        vocab = loads(bson_object)
+    def unserialize(self, vocab_bson):
+        vocab = loads(vocab_bson)
         vocab = {(k, int(v)) for k, v in vocab.items()}
         model = Analyzer.initialize_model(3, vocab=vocab)
         return model
+
+    def push(self, collection, id, object):
+        self.db[collection].insert([{id:object}])
 
 
 if __name__ == "__main__":
@@ -35,9 +38,9 @@ if __name__ == "__main__":
     models = ["title_feature_model.dill", "abstract_feature_model.dill", "claims_feature_model.dill"]
     path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + models[0]
     model_bson = database.serialize(open(path, 'rb'))
-    # database.push(model_bson)
-    # database.pull(model_id)
-    model = database.unserialize(model_bson)
-    print(model)
+    database.push('feature-models', 'title', model_bson)
+    # vocab_bson = database.pull('feature-models', 'title', model_bson)
+    # model = database.unserialize(vocab_bson)
+    # print(model)
 
 
