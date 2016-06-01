@@ -42,21 +42,22 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        feature_model_title = pickle.load(download('title_feature_model.dill'))
-        title_vector = feature_model_title.transform([title])
-
-        feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
-        abstract_vector = feature_model_abstract.transform([abstract])
-
-        feature_model_claims = pickle.load(download('claims_feature_model.dill'))
-        claims_vector = feature_model_claims.transform([claims])
-
-        feature_vector = hstack([title_vector, abstract_vector])
-        feature_vector = hstack([feature_vector, claims_vector])
-
-        classifier = pickle.load(download('SGD2016-05-03'))
-
-        group = classifier.predict(feature_vector)
+        # feature_model_title = pickle.load(download('title_feature_model.dill'))
+        # title_vector = feature_model_title.transform([title])
+        #
+        # feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
+        # abstract_vector = feature_model_abstract.transform([abstract])
+        #
+        # feature_model_claims = pickle.load(download('claims_feature_model.dill'))
+        # claims_vector = feature_model_claims.transform([claims])
+        #
+        # feature_vector = hstack([title_vector, abstract_vector])
+        # feature_vector = hstack([feature_vector, claims_vector])
+        #
+        # classifier = pickle.load(download('SGD2016-05-03'))
+        #
+        # group = classifier.predict(feature_vector)
+        group=0
         return render_template('query.html', group=group)
 
 if __name__ == '__main__':
