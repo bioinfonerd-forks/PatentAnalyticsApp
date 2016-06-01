@@ -1,6 +1,9 @@
 from flask import Flask, request, render_template
 from scipy.sparse import hstack
 from flask.ext.basicauth import BasicAuth
+from database import Database
+from config import Config
+from dill import pickle
 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -42,22 +45,27 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        # feature_model_title = pickle.load(download('title_feature_model.dill'))
-        # title_vector = feature_model_title.transform([title])
-        #
-        # feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
-        # abstract_vector = feature_model_abstract.transform([abstract])
-        #
-        # feature_model_claims = pickle.load(download('claims_feature_model.dill'))
-        # claims_vector = feature_model_claims.transform([claims])
-        #
-        # feature_vector = hstack([title_vector, abstract_vector])
-        # feature_vector = hstack([feature_vector, claims_vector])
-        #
-        # classifier = pickle.load(download('SGD2016-05-03'))
-        #
-        # group = classifier.predict(feature_vector)
-        group=0
+
+        config = Config()
+        database = Database(config)
+        title_vocab_bson = database.pull('feature-models', 'title')
+        abstract_vocab_bson = database.pull('feature-models', 'abstract')
+        claims_vocab_bson = database.pull('feature-models', 'claims')
+        feature_model_title = pickle.load(open(database.unserialize(title_vocab_bson), 'rb'))
+        feature_model_abstract = pickle.load(open(database.unserialize(abstract_vocab_bson), 'rb'))
+        feature_model_claims = pickle.load(open(database.unserialize(claims_vocab_bson), 'rb'))
+
+        title_vector = feature_model_title.transform([title])
+        abstract_vector = feature_model_abstract.transform([abstract])
+        claims_vector = feature_model_claims.transform([claims])
+
+        feature_vector = hstack([title_vector, abstract_vector])
+        feature_vector = hstack([feature_vector, claims_vector])
+
+        classifier = database.pull('classifiers', 'SGD2016-05-03')
+
+        group = classifier.predict(feature_vector)
+
         return render_template('query.html', group=group)
 
 if __name__ == '__main__':

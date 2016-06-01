@@ -31,6 +31,9 @@ class Database(object):
     def push(self, collection, id, object):
         self.db[collection].insert([{id:object}])
 
+    def pull(self, collection, id):
+        return self.db[collection].find([{id}]).fetch()
+
 
 if __name__ == "__main__":
     config = Config()
@@ -40,8 +43,10 @@ if __name__ == "__main__":
         path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
         model_bson = database.serialize(open(path, 'rb'))
         database.push('feature-models', model, model_bson)
-        # vocab_bson = database.pull('feature-models', 'title', model_bson)
-        # model = database.unserialize(vocab_bson)
         # print(model)
 
+    classifier = ["SGD2016-05-03"]
+    path = """D:\\Workspace\\PatentAnalyticsApp\\classifiers\\""" + classifier + ".dill"
+    classifier_bson = database.serialize(open(path, 'rb'))
+    database.push('classifiers', classifier, classifier_bson)
 
