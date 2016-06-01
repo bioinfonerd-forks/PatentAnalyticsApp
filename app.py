@@ -50,8 +50,8 @@ def submit_query():
         # classifier = pickle.load(download('SGD2016-05-03'))
         #
         # group = classifier.predict(feature_vector)
-        return
         # return render_template('query.html', group=group)
+        return
 
 if __name__ == '__main__':
     from os import environ
