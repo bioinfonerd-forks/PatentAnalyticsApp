@@ -1,12 +1,14 @@
 import dill as pickle
 from bson.json_util import dumps
 from config import Config
-
+from sklearn.feature_extraction.text import TfidfVectorizer
+from analyzer import Analyzer
 
 def translate_to_bson(dill_object):
     obj = pickle.load(dill_object)
-    bson_object = dumps(obj)
-    return bson_object
+    vocab = obj.vocabulary
+    bson_object = dumps(vocab)
+    print(bson_object)
 
 
 if __name__ == "__main__":
