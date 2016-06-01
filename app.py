@@ -1,8 +1,6 @@
 from flask import Flask, request, render_template
 from scipy.sparse import hstack
-import pickle
-from boto.s3.connection import S3Connection
-from boto.s3.key import Key
+from dill import pickle
 import tempfile
 
 DEBUG = True
@@ -11,11 +9,6 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
-
-conn = S3Connection()
-#AWS_ACCESS_KEY_ID = AKIAJPYNQBFLNNVKU3UQ
-#AWS_SECRET_ACCESS_KEY = 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
-mybucket = conn.get_bucket('patent-model-data')
 
 
 @app.route('/')
@@ -45,32 +38,23 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
+        # feature_model_title = pickle.load(download('title_feature_model.dill'))
+        # title_vector = feature_model_title.transform([title])
 
-        def download(file):
-            key = Key(mybucket, file)
-            tempfilename = tempfile.mktemp()
-            key.get_file(open(tempfilename, "w"))
-            return open(tempfilename,'rb')
+        # feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
+        # abstract_vector = feature_model_abstract.transform([abstract])
 
+        # feature_model_claims = pickle.load(download('claims_feature_model.dill'))
+        # claims_vector = feature_model_claims.transform([claims])
 
+        # feature_vector = hstack([title_vector, abstract_vector])
+        # feature_vector = hstack([feature_vector, claims_vector])
 
-        feature_model_title = pickle.load(download('title_feature_model.dill'))
-        title_vector = feature_model_title.transform([title])
-
-        feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
-        abstract_vector = feature_model_abstract.transform([abstract])
-
-        feature_model_claims = pickle.load(download('claims_feature_model.dill'))
-        claims_vector = feature_model_claims.transform([claims])
-
-        feature_vector = hstack([title_vector, abstract_vector])
-        feature_vector = hstack([feature_vector, claims_vector])
-
-        classifier = pickle.load(download('SGD2016-05-03'))
-
-        group = classifier.predict(feature_vector)
-
-        return render_template('query.html', group=group)
+        # classifier = pickle.load(download('SGD2016-05-03'))
+        #
+        # group = classifier.predict(feature_vector)
+        return
+        # return render_template('query.html', group=group)
 
 if __name__ == '__main__':
     from os import environ
