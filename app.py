@@ -1,7 +1,4 @@
 from flask import Flask, request, render_template
-from scipy.sparse import hstack
-from dill import pickle
-import tempfile
 
 DEBUG = True
 SECRET_KEY = 'development key'
