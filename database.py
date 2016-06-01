@@ -1,7 +1,6 @@
 import dill as pickle
-from bson.json_util import dumps
+from bson.json_util import dumps, loads
 from config import Config
-from sklearn.feature_extraction.text import TfidfVectorizer
 from analyzer import Analyzer
 from pymongo import MongoClient
 
@@ -17,16 +16,25 @@ class Database(object):
         return client
 
 
-def translate_to_bson(dill_object):
-    obj = pickle.load(dill_object)
+def serialize(analyzer_object):
+    obj = pickle.load(analyzer_object)
     vocab = obj.vocabulary_
-    bson_object = dumps(vocab)
-    print(bson_object)
+    vocab = {(k,str(v)) for k,v in vocab.items()}
+    bson_object = dumps([vocab])
+    return bson_object
+
+
+def unserialize(bson_object):
+    vocab=loads(bson_object)
+    model = Analyzer.initialize_model(3, vocab=vocab)
 
 
 if __name__ == "__main__":
     config = Config()
-    path = """D:\\Workspace\\PatentAnalyticsApp\\models\\title_feature_model.dill"""
-    translate_to_bson(open(path, 'rb'))
+    models = ["title_feature_model.dill", "abstract_feature_model.dill", "claims_feature_model.dill"]
+    path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + models[0]
+    model_bson = serialize(open(path, 'rb'))
+    model = unserialize(model_bson)
+    print(model)
 
 
