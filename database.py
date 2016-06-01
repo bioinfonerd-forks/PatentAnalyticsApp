@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from analyzer import Analyzer
 from pymongo import MongoClient
 
+
 class Database(object):
     def __init__(self, config):
         self.config = config
@@ -18,14 +19,14 @@ class Database(object):
 
 def translate_to_bson(dill_object):
     obj = pickle.load(dill_object)
-    vocab = obj.vocabulary
+    vocab = obj.vocabulary_
     bson_object = dumps(vocab)
     print(bson_object)
 
 
 if __name__ == "__main__":
     config = Config()
-    path = config.get_model_path('abstract')
+    path = """D:\\Workspace\\PatentAnalyticsApp\\models\\title_feature_model.dill"""
     translate_to_bson(open(path, 'rb'))
 
 
