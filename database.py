@@ -35,12 +35,13 @@ class Database(object):
 if __name__ == "__main__":
     config = Config()
     database = Database(config)
-    models = ["title_feature_model.dill", "abstract_feature_model.dill", "claims_feature_model.dill"]
-    path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + models[0]
-    model_bson = database.serialize(open(path, 'rb'))
-    database.push('feature-models', 'title', model_bson)
-    # vocab_bson = database.pull('feature-models', 'title', model_bson)
-    # model = database.unserialize(vocab_bson)
-    # print(model)
+    models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
+    for model in models:
+        path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
+        model_bson = database.serialize(open(path, 'rb'))
+        database.push('feature-models', model, model_bson)
+        # vocab_bson = database.pull('feature-models', 'title', model_bson)
+        # model = database.unserialize(vocab_bson)
+        # print(model)
 
 
