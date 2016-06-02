@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template
 from scipy.sparse import hstack
-from flask.ext.basicauth import BasicAuth
+from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
-from dill import pickle
+import pickle 
 
 DEBUG = True
 SECRET_KEY = 'development key'
