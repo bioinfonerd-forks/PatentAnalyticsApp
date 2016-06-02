@@ -15,18 +15,22 @@ class Database(object):
         db = client.get_default_database()
         return db
 
-    def serialize(self, analyzer_object):
+    def serialize_tfidf(self, analyzer_object):
         obj = pickle.load(analyzer_object)
         vocab = obj.vocabulary_
         vocab = {(k, str(v)) for k, v in vocab.items()}
         bson_object = dumps([vocab])
         return bson_object
 
-    def unserialize(self, vocab_bson):
+    def unserialize_tfidf(self, vocab_bson):
         vocab = loads(vocab_bson)
         vocab = {(k, int(v)) for k, v in vocab.items()}
         model = Analyzer.initialize_model(3, vocab=vocab)
         return model
+
+    def serialize_classifier(self, classifier_object):
+        bson_object = dumps([classifier_object])
+        return bson_object
 
     def push(self, collection, id, object):
         self.db[collection].insert([{id:object}])
@@ -38,15 +42,15 @@ class Database(object):
 if __name__ == "__main__":
     config = Config()
     database = Database(config)
-    models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
-    for model in models:
-        path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
-        model_bson = database.serialize(open(path, 'rb'))
-        database.push('feature-models', model, model_bson)
-        # print(model)
+    # models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
+    # for model in models:
+    #     path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
+    #     model_bson = database.serialize(open(path, 'rb'))
+    #     database.push('feature-models', model, model_bson)
+    #     # print(model)
 
-    classifier = ["SGD2016-05-03"]
-    path = """D:\\Workspace\\PatentAnalyticsApp\\classifiers\\""" + classifier + ".dill"
-    classifier_bson = database.serialize(open(path, 'rb'))
+    classifier = "SGD2016-05-03"
+    path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + classifier + ".dill"
+    classifier_bson = database.serialize_classifier(open(path, 'rb'))
     database.push('classifiers', classifier, classifier_bson)
 
