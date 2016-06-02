@@ -3,8 +3,6 @@ from scipy.sparse import hstack
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
-from analyzer import Analyzer
-from dill import pickle 
 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -49,22 +47,16 @@ def submit_query():
 
         config = Config()
         database = Database(config)
-        title_vocab_bson = database.pull('feature-models', 'title')
-        abstract_vocab_bson = database.pull('feature-models', 'abstract')
-        claims_vocab_bson = database.pull('feature-models', 'claims')
-        feature_model_title = Analyzer.initialize_model(3, database.deserialize_tfidf(title_vocab_bson))
-        feature_model_abstract = Analyzer.initialize_model(3, database.deserialize_tfidf(abstract_vocab_bson))
-        feature_model_claims = Analyzer.initialize_model(3, database.deserialize_tfidf(claims_vocab_bson))
+        tfidf = database.pull_tfidf_models()
 
-        title_vector = feature_model_title.transform([title])
-        abstract_vector = feature_model_abstract.transform([abstract])
-        claims_vector = feature_model_claims.transform([claims])
+        title_vector = tfidf['title_feature_model'].transform([title])
+        abstract_vector = tfidf['abstract_feature_model'].transform([abstract])
+        claims_vector = tfidf['claims_feature_model'].transform([claims])
 
         feature_vector = hstack([title_vector, abstract_vector])
         feature_vector = hstack([feature_vector, claims_vector])
 
-        classifier = database.pull('classifier-models', 'SGD2016-05-03')
-        classifier = database.deserialize_classifier(classifier)
+        classifier = database.pull_classifier()
         group = classifier.predict(feature_vector)
 
         return render_template('query.html', group=group)
