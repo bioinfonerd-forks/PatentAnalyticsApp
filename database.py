@@ -3,6 +3,7 @@ from bson.json_util import dumps, loads
 from config import Config
 from analyzer import Analyzer
 import pymongo
+import zlib
 
 
 class Database(object):
@@ -22,15 +23,21 @@ class Database(object):
         bson_object = dumps([vocab])
         return bson_object
 
-    def unserialize_tfidf(self, vocab_bson):
+    def deserialize_tfidf(self, vocab_bson):
         vocab = loads(vocab_bson)
         vocab = {(k, int(v)) for k, v in vocab.items()}
         model = Analyzer.initialize_model(3, vocab=vocab)
         return model
 
-    def serialize_classifier(self, classifier_object):
-        bson_object = dumps([classifier_object])
-        return bson_object
+    def serialize_classifier(self, classifier_object_pickled):
+        classifier_compressed = zlib.compress(pickle.dumps(pickle.load(classifier_object_pickled)))
+        classifier_compressed_bson = dumps([classifier_compressed])
+        return classifier_compressed_bson
+
+    def deserialize_classifier(self, classifier_compressed_bson):
+        classifier_compressed_bson = loads([classifier_compressed_bson])
+        classifier = pickle.loads(zlib.decompress(classifier_compressed_bson))
+        return classifier
 
     def push(self, collection, id, object):
         self.db[collection].insert([{id:object}])
@@ -51,6 +58,6 @@ if __name__ == "__main__":
 
     classifier = "SGD2016-05-03"
     path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + classifier + ".dill"
-    classifier_bson = database.serialize_classifier(open(path, 'rb'))
-    database.push('classifiers', classifier, classifier_bson)
+    classifier_serialized = database.serialize_classifier(open(path, 'rb'))
+    database.push('classifiers', classifier, classifier_serialized)
 
