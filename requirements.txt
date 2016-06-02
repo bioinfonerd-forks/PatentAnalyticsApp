@@ -6,4 +6,3 @@ Flask==0.10.1
 Flask-BasicAuth==0.2.0
 nltk
 dill
-pickle
