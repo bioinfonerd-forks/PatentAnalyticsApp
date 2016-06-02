@@ -3,7 +3,7 @@ from scipy.sparse import hstack
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
-import pickle 
+from dill import pickle 
 
 DEBUG = True
 SECRET_KEY = 'development key'
