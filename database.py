@@ -43,7 +43,7 @@ class Database(object):
 
     def get_fs(self, name):
         bytes = self.fs.find_one({"name": name})
-        return bytes
+        return bytes.read().decode()
 
     def push_tfidf_models(self):
         models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
@@ -75,7 +75,7 @@ class Database(object):
 if __name__ == "__main__":
     config = Config()
     database = Database(config)
-    database.push_tfidf_models()
+    # database.push_tfidf_models()
     tfidf = database.pull_tfidf_models()
 
 

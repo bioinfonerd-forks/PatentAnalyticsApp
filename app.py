@@ -44,7 +44,6 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-
         config = Config()
         database = Database(config)
         tfidf = database.pull_tfidf_models()
