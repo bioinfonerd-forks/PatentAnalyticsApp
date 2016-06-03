@@ -12,6 +12,7 @@ import tempfile
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
+import nltk 
 
 
 DEBUG = True
@@ -70,6 +71,7 @@ def submit_query():
             key.get_contents_to_filename(tempfilename)
             return open(tempfilename,'rb')
         
+        nltk.download('punkt')
         config = Config()
         database = Database(config)
         
