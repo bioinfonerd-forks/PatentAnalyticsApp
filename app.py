@@ -67,7 +67,7 @@ def submit_query():
         def download(file):
             key = Key(mybucket, file)
             tempfilename = tempfile.mktemp()
-            key.get_file(open(tempfilename, "w"))
+            key.get_file(tempfilename)
             return open(tempfilename,'rb')
         
         config = Config()
