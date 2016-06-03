@@ -1,4 +1,4 @@
-python==3.5.1
+python==3.5.0
 pandas==0.17.1
 numpy==1.10.1
 scipy==0.16.0
