@@ -30,7 +30,7 @@ conn = S3Connection()
 #AWS_ACCESS_KEY_ID = AKIAJPYNQBFLNNVKU3UQ
 #AWS_SECRET_ACCESS_KEY = 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
 mybucket = conn.get_bucket('patent-model-data')
-
+nltk.download('punkt')
 
 
 
@@ -71,7 +71,7 @@ def submit_query():
             key.get_contents_to_filename(tempfilename)
             return open(tempfilename,'rb')
         
-        nltk.download('punkt')
+    
         config = Config()
         database = Database(config)
         
