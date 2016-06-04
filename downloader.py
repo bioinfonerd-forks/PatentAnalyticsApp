@@ -1,7 +1,6 @@
  import requests 
  import tempfile
- from boto import Key 
- 
+ from boto.s3.key import Key
  
   def download(file):
             key = Key(mybucket, file)
