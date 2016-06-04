@@ -38,9 +38,9 @@ q = Queue(connection=conn)
 
 config = Config()
 database = Database(config)
-feature_model_title = pickle.load(download('title_feature_model.dill'))
-feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
-feature_model_claims = pickle.load(download('claims_feature_model.dill'))
+feature_model_title = q.enqueue(pickle.load(download('title_feature_model.dill')))
+feature_model_abstract = q.enqueue(pickle.load(download('abstract_feature_model.dill')))
+feature_model_claims = q.enqueue(pickle.load(download('claims_feature_model.dill')))
 
 
 @app.route('/')
