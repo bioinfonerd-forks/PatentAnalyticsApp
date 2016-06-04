@@ -38,9 +38,9 @@ q = Queue(connection=conn)
 
 config = Config()
 database = Database(config)
-feature_model_title = q.enqueue(pickle.load(download('title_feature_model.dill')))
-feature_model_abstract = q.enqueue(pickle.load(download('abstract_feature_model.dill')))
-feature_model_claims = q.enqueue(pickle.load(download('claims_feature_model.dill')))
+test1 = q.enqueue(download, 'title_feature_model.dill')
+test2 = q.enqueue(download, 'abstract_feature_model.dill')
+test3 = q.enqueue(download, 'claims_feature_model.dill')
 
 
 @app.route('/')
@@ -75,13 +75,13 @@ def submit_query():
         
         config = Config()
         database = Database(config)
-        #feature_model_title = pickle.load(download('title_feature_model.dill'))
+        feature_model_title = pickle.load(test1)
         title_vector = feature_model_title.transform([title])
 
-        #feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
+        feature_model_abstract = pickle.load(test2)
         abstract_vector = feature_model_abstract.transform([abstract])
 
-        #feature_model_claims = pickle.load(download('claims_feature_model.dill'))
+        feature_model_claims = pickle.load(test3)
         claims_vector = feature_model_claims.transform([claims])
 
         feature_vector = hstack([title_vector, abstract_vector])
