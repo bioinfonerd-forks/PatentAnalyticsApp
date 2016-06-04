@@ -36,13 +36,6 @@ nltk.download('punkt')
 q = Queue(connection=conn)
 
 
-config = Config()
-database = Database(config)
-test1 = q.enqueue(download, 'title_feature_model.dill')
-test2 = q.enqueue(download, 'abstract_feature_model.dill')
-test3 = q.enqueue(download, 'claims_feature_model.dill')
-
-
 @app.route('/')
 @basic_auth.required
 def home():
@@ -75,13 +68,13 @@ def submit_query():
         
         config = Config()
         database = Database(config)
-        feature_model_title = pickle.load(test1)
+        feature_model_title = pickle.load(download('title_feature_model.dill'))
         title_vector = feature_model_title.transform([title])
 
-        feature_model_abstract = pickle.load(test2)
+        feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
         abstract_vector = feature_model_abstract.transform([abstract])
 
-        feature_model_claims = pickle.load(test3)
+        feature_model_claims = pickle.load(download('claims_feature_model.dill'))
         claims_vector = feature_model_claims.transform([claims])
 
         feature_vector = hstack([title_vector, abstract_vector])
