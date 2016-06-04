@@ -70,7 +70,7 @@ def submit_query():
         config = Config()
         database = Database(config)
         
-        feature_model_title = pickle.load(q.enqueue(download,'title_feature_model.dill'))
+        feature_model_title = pickle.load(download('title_feature_model.dill'))
         title_vector = feature_model_title.transform([title])
 
         feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
