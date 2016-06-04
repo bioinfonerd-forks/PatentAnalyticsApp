@@ -13,6 +13,9 @@ from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
 import nltk 
+import requests
+from rq import Queue
+from worker import conn
 
 
 DEBUG = True
@@ -31,7 +34,7 @@ conn = S3Connection()
 #AWS_SECRET_ACCESS_KEY = tIgVLIJUBgIVxvY9dVaB4jNcG/mRQH3hR9I9BF7A
 mybucket = conn.get_bucket('patent-model-data')
 nltk.download('punkt')
-
+q = Queue(connection=conn)
 
 
 
@@ -68,7 +71,7 @@ def submit_query():
         def download(file):
             key = Key(mybucket, file)
             tempfilename = tempfile.mktemp()
-            key.get_contents_to_filename(tempfilename)
+            q.enqueue(key.get_contents_to_filename, tempfilename)
             return open(tempfilename,'rb')
         
     
