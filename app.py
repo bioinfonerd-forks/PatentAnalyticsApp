@@ -32,13 +32,15 @@ conns3 = S3Connection()
 #AWS_ACCESS_KEY_ID = AKIAJPYNQBFLNNVKU3UQ
 #AWS_SECRET_ACCESS_KEY = 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
 mybucket = conns3.get_bucket('patent-model-data')
-#nltk.download('punkt')
+nltk.download('punkt')
 q = Queue(connection=conn)
 
 
 config = Config()
 database = Database(config)
 feature_model_title = pickle.load(download('title_feature_model.dill'))
+feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
+feature_model_claims = pickle.load(download('claims_feature_model.dill'))
 
 
 @app.route('/')
@@ -73,13 +75,13 @@ def submit_query():
         
         config = Config()
         database = Database(config)
-        feature_model_title = pickle.load(download('title_feature_model.dill'))
+        #feature_model_title = pickle.load(download('title_feature_model.dill'))
         title_vector = feature_model_title.transform([title])
 
-        feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
+        #feature_model_abstract = pickle.load(download('abstract_feature_model.dill'))
         abstract_vector = feature_model_abstract.transform([abstract])
 
-        feature_model_claims = pickle.load(download('claims_feature_model.dill'))
+        #feature_model_claims = pickle.load(download('claims_feature_model.dill'))
         claims_vector = feature_model_claims.transform([claims])
 
         feature_vector = hstack([title_vector, abstract_vector])
