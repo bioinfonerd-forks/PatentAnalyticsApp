@@ -13,7 +13,7 @@ from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
 import nltk 
-import requests
+from downloader import Download 
 from rq import Queue
 from worker import conn
 
@@ -68,13 +68,6 @@ def submit_query():
             return render_template('query.html', error=KeyError)
 
         
-        def download(file):
-            key = Key(mybucket, file)
-            tempfilename = tempfile.mktemp()
-            key.get_contents_to_filename(tempfilename)
-            return open(tempfilename,'rb')
-        
-    
         config = Config()
         database = Database(config)
         
