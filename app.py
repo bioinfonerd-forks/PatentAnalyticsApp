@@ -29,10 +29,10 @@ app.config['BASIC_AUTH_USERNAME'] = 'vt'
 app.config['BASIC_AUTH_PASSWORD'] = 'hokies'
 basic_auth = BasicAuth(app)
 
-conn = S3Connection()
+conns3 = S3Connection()
 #AWS_ACCESS_KEY_ID = AKIAJPYNQBFLNNVKU3UQ
 #AWS_SECRET_ACCESS_KEY = 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
-mybucket = conn.get_bucket('patent-model-data')
+mybucket = conns3.get_bucket('patent-model-data')
 nltk.download('punkt')
 q = Queue(connection=conn)
 
