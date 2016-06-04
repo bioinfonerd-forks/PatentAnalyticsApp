@@ -8,12 +8,11 @@ import os
 from datetime import date
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
-import tempfile
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
 import nltk 
-from downloader import Download 
+from downloader import download 
 from rq import Queue
 from worker import conn
 
