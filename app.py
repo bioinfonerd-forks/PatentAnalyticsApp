@@ -68,8 +68,8 @@ def submit_queryfirst():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        group = None 
-        group = q.enqueue(doitall(title, abstract, claims))
+        group = 'testing' 
+        #group = q.enqueue(doitall(title, abstract, claims))
         
         #while type(group) == 'Job': 
          #   time.sleep(5) 
