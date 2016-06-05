@@ -73,7 +73,7 @@ def submit_query():
         #classifier = pickle.load(download('SGD2016-05-03'))
         #group = classifier.predict(feature_vector)
         group = None 
-        group = q.enqueue(doitall())
+        group = q.enqueue(doitall(title, abstract, claims))
         
         while type(group) == 'Job': 
             time.sleep(5) 
