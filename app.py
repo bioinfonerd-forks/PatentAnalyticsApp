@@ -74,7 +74,7 @@ def submit_queryfirst():
         #while type(group) == 'Job': 
          #   time.sleep(5) 
         
-        return render_template('query.html')
+        return render_template('query.html'), group
 
 @app.route('/query2', methods=['POST', 'GET'])
 @basic_auth.required
