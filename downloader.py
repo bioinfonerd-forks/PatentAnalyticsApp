@@ -2,6 +2,24 @@ import requests
 import tempfile
 from boto.s3.key import Key
 from boto.s3.connection import S3Connection
+
+from flask import Flask, request, render_template, redirect, url_for
+import os, json, boto
+#import sys
+#from datetime import date
+from scipy.sparse import hstack
+import dill as pickle
+import os
+from datetime import date
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
+from flask_basicauth import BasicAuth
+from database import Database
+from config import Config
+import nltk 
+from downloader import download 
+from rq import Queue
+from worker import conn
  
 def download(file):
      key = Key(S3Connection().get_bucket('patent-model-data'), file)
@@ -25,4 +43,4 @@ def doitall():
       feature_vector = hstack([feature_vector, claims_vector])
         
       classifier = database.pull_classifier()
-      return group = classifier.predict(feature_vector)
+      return classifier.predict(feature_vector)
