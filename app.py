@@ -69,12 +69,12 @@ def submit_queryfirst():
             return render_template('query.html', error=KeyError)
 
         group = '1300' 
-        #group = q.enqueue(doitall(title, abstract, claims))
+        group = q.enqueue(doitall(title, abstract, claims))
         
         #while type(group) == 'Job': 
          #   time.sleep(5) 
         
-        return render_template('query.html'), group
+        return render_template('query.html')
 
 @app.route('/query2', methods=['POST', 'GET'])
 @basic_auth.required
