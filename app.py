@@ -74,9 +74,12 @@ def submit_query():
         #while type(group) == 'Job': 
          #   time.sleep(5) 
         
-        return render_template('query.html')
+        return 
 
-    
+@app.route('/query2', methods=['POST', 'GET'])
+@basic_auth.required
+def submit_query():
+    return render_template('query.html',group=group)
 
 if __name__ == '__main__':
     from os import environ
