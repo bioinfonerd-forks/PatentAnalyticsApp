@@ -69,13 +69,12 @@ def submit_query():
             return render_template('query.html', error=KeyError)
 
         group = None 
-        #group = q.enqueue(doitall(title, abstract, claims))
-        group= doitall(title,abstract,claims)
+        group = q.enqueue(doitall(title, abstract, claims))
         
         #while type(group) == 'Job': 
          #   time.sleep(5) 
         
-        #return render_template('query.html', group=group)
+        return render_template('query.html')
 
     
 
