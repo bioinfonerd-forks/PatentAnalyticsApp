@@ -17,7 +17,6 @@ from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
 import nltk 
-from downloader import download 
 from rq import Queue
 from worker import conn
  
