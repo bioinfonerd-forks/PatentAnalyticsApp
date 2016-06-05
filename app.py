@@ -47,7 +47,7 @@ def home():
 
 @app.route('/query', methods=['POST', 'GET'])
 @basic_auth.required
-def submit_query():
+def submit_queryfirst():
     title = None
     abstract = None
     claims = None
