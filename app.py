@@ -15,6 +15,7 @@ import nltk
 from downloader import download 
 from rq import Queue
 from worker import conn
+from downloader import doitall 
 
 
 DEBUG = True
@@ -70,10 +71,10 @@ def submit_query():
         #path = config.get_classifier_path('SGD2016-05-03', False)
         #classifier = pickle.load(download('SGD2016-05-03'))
         #group = classifier.predict(feature_vector)
-
+        group = doitall()
         return render_template('query.html', group=group)
 
-
+    
 
 if __name__ == '__main__':
     from os import environ
