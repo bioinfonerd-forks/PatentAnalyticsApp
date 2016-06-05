@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, redirect, url_for
 import os, json, boto
-#import sys
-#from datetime import date
+import sys
+from datetime import date
+import time 
 from scipy.sparse import hstack
 import dill as pickle
 import os
@@ -71,7 +72,12 @@ def submit_query():
         #path = config.get_classifier_path('SGD2016-05-03', False)
         #classifier = pickle.load(download('SGD2016-05-03'))
         #group = classifier.predict(feature_vector)
-        group = doitall()
+        group = None 
+        group = q.enqueue(doitall())
+        
+        while type(group) == 'Job': 
+            time.sleep(5) 
+        
         return render_template('query.html', group=group)
 
     
