@@ -16,7 +16,11 @@ import nltk
 from downloader import download 
 from rq import Queue
 from worker import conn
-from downloader import doitall 
+#from downloader import doitall 
+import requests 
+import tempfile
+from boto.s3.key import Key
+from boto.s3.connection import S3Connection
 
 
 DEBUG = True
