@@ -10,3 +10,4 @@ nltk==3.1
 boto
 rq
 requests
+gunicorn
