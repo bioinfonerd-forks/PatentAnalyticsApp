@@ -26,7 +26,7 @@ def download(file):
      key.get_contents_to_filename(tempfilename)
      return open(tempfilename,'rb')
 
-def doitall():
+def doitall(title, abstract, claims):
       config = Config()
       database = Database(config)
       feature_model_title = pickle.load(download('title_feature_model.dill'))
