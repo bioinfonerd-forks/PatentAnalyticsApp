@@ -3,7 +3,7 @@ from scipy.sparse import hstack
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
-from os import environ
+from os import environ, path
 import nltk
 
 DEBUG = True
@@ -63,5 +63,5 @@ def submit_query():
         return render_template('query.html', group=group)
 
 if __name__ == '__main__':
-    nltk.download()
+    nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
     app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
