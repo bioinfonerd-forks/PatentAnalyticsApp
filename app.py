@@ -3,6 +3,8 @@ from scipy.sparse import hstack
 from flask_basicauth import BasicAuth
 from database import Database
 from config import Config
+from os import environ
+import nltk
 
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -61,6 +63,5 @@ def submit_query():
         return render_template('query.html', group=group)
 
 if __name__ == '__main__':
-    from os import environ
+    nltk.download()
     app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
-    #app.run()
