@@ -55,7 +55,7 @@ def submit_query():
         feature_vector = hstack([title_vector, abstract_vector])
         feature_vector = hstack([feature_vector, claims_vector])
 
-        classifier = database.pull_classifier()
+        classifier = database.pull_classifier_local()
         group = classifier.predict(feature_vector)
 
         return render_template('query.html', group=group)

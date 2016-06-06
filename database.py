@@ -19,15 +19,15 @@ class Database(object):
 
     @staticmethod
     def serialize(object_buffer):
-        classifier_compressed = zlib.compress(pickle.dumps(pickle.load(object_buffer)))
-        classifier_compressed_bson = dumps([classifier_compressed])
-        return classifier_compressed_bson
+        compressed = zlib.compress(pickle.dumps(pickle.load(object_buffer)))
+        compressed_bson = dumps([compressed])
+        return compressed_bson
 
     @staticmethod
-    def deserialize(classifier_compressed_bson):
-        classifier_compressed = loads(classifier_compressed_bson)
-        classifier = pickle.loads(zlib.decompress(classifier_compressed[0]))
-        return classifier
+    def deserialize(compressed_bson):
+        compressed = loads(compressed_bson)
+        object = pickle.loads(zlib.decompress(compressed[0]))
+        return object
 
     def put(self, collection, id, object):
         data = {"name": id, "model": object}
@@ -50,26 +50,39 @@ class Database(object):
         for model in models:
             path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
             model_bson = self.serialize(open(path, 'rb'))
-            database.put_fs(model, model_bson)
+            database.put('feature-models', model, model_bson)
 
     def pull_tfidf_models(self):
         models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         tfidf = dict()
         for model in models:
-            db_model = self.get_fs(model)
-            tfidf[model] = self.deserialize(db_model)
+            db_model = self.get('feature-models', model)
+            tfidf[model] = self.deserialize(db_model['model'])
+        return tfidf
+
+    def pull_tfidf_models_local(self):
+        models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
+        tfidf = dict()
+        for model in models:
+            model_path = self.config.model_dir + '/' + model + '.dill'
+            tfidf[model] = pickle.load(open(model_path, 'rb'))
         return tfidf
 
     def push_classifier(self):
-        classifier_name = "SGD2016-05-03"
+        classifier_name = "SGD2016-06-05"
         path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + classifier_name + ".dill"
         classifier_serialized = self.serialize(open(path, 'rb'))
         database.put('classifiers', classifier_name, classifier_serialized)
 
     def pull_classifier(self):
-        classifier_name = "SGD2016-05-03"
+        classifier_name = "SGD2016-06-05"
         db_model = self.get('classifiers', classifier_name)
         return self.deserialize(db_model['model'])
+
+    def pull_classifier_local(self):
+        classifier_name = "SGD2016-06-05"
+        classifier_path = self.config.model_dir + '/' + classifier_name + '.dill'
+        return pickle.load(open(classifier_path, 'rb'))
 
 
 if __name__ == "__main__":
@@ -77,6 +90,8 @@ if __name__ == "__main__":
     database = Database(config)
     # database.push_tfidf_models()
     tfidf = database.pull_tfidf_models()
+    database.push_classifier()
+    classifier = database.pull_classifier()
 
 
 
