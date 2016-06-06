@@ -69,13 +69,13 @@ class Database(object):
         return tfidf
 
     def push_classifier(self):
-        classifier_name = "SGD2016-06-05"
+        classifier_name = "Perceptron2016-06-06"
         path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + classifier_name + ".dill"
         classifier_serialized = self.serialize(open(path, 'rb'))
         database.put('classifiers', classifier_name, classifier_serialized)
 
     def pull_classifier(self):
-        classifier_name = "SGD2016-06-05"
+        classifier_name = "Perceptron2016-06-06"
         db_model = self.get('classifiers', classifier_name)
         return self.deserialize(db_model['model'])
 
@@ -89,9 +89,9 @@ if __name__ == "__main__":
     config = Config()
     database = Database(config)
     # database.push_tfidf_models()
-    tfidf = database.pull_tfidf_models()
+    # tfidf = database.pull_tfidf_models()
     database.push_classifier()
-    classifier = database.pull_classifier()
+    # classifier = database.pull_classifier()
 
 
 
