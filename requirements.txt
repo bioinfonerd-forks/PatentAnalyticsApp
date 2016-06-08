@@ -7,3 +7,4 @@ Flask-BasicAuth==0.2.0
 dill==0.2.4
 pymongo==3.2.2
 nltk==3.1
+gunicorn
