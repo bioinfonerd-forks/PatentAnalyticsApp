@@ -60,7 +60,7 @@ def submit_query():
         classifier = database.pull_classifier()
         group = classifier.predict(feature_vector)
 
-        return render_template('query.html', group=group)
+        return render_template('query.html', group=group, title=title, abstract=abstract, claims=claims)
 
 if __name__ == '__main__':
     nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
