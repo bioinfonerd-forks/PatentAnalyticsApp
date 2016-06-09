@@ -1,0 +1,44 @@
+<!doctype html>
+<title>Artunit Classifier App</title>
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<script type="text/javascript" src="http://www.freecodeformat.com/res/xreturntop/x-return-top.min.js"></script>
+<script type="text/javascript" color="0,100,200" opacity="0.5" src="http://www.freecodeformat.com/js/canvas-nest.min.js"></script>
+<div class="container">
+<h1>
+    Welcome to the Patent Art Unit Classification System
+</h1>
+
+    <div class="container_right">
+    {% if group %}
+    <h2><font color="blue">{{ group[0] }}</font></h2>
+    {% endif %}
+
+    {% if error %}
+    <h2><font color="red">{{ error }}</font></h2>
+    {% endif %}
+    </div>
+
+    <div class="container2">
+         <form action="/query" method="POST">
+
+             <p><h3>Title:</h3><textarea rows="4" cols="50" name=title ></textarea></p>
+
+             <p><h3>Abstract:</h3><textarea rows="10" cols="50" type=text name=abstract ></textarea></p>
+
+             <p><h3>First Independent Claim:</h3><textarea rows="25" cols="50" type=text name=claims></textarea></p>
+             <div class="form-button">
+                <input type=submit value=Submit class="graphite-flat-button"/>
+             </div>
+        </form>
+    </div>
+
+
+
+</div>
+
+</body>
