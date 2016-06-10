@@ -45,12 +45,29 @@ def submit_query():
             claims = request.form['claims']
         except KeyError:
             return render_template('query.html', error=KeyError)
+            
+        try:
+            TC2100 = request.form['TC2100']
+        except KeyError:
+            return render_template('query.html', error=KeyError)
+        
+        try:
+            TC2400 = request.form['TC2400']
+        except KeyError:
+            return render_template('query.html', error=KeyError)
+        
+        try:
+            TC2600 = request.form['TC2600']
+        except KeyError:
+            return render_template('query.html', error=KeyError)
+        
+        try:
+            TC3600 = request.form['TC3600']
+        except KeyError:
+            return render_template('query.html', error=KeyError)
 
         classifier_name = "SGD"
-        TC2100 = ""
-        TC2400 = ""
-        TC2600 = ""
-        TC3600 = ""
+        
         if len(TC2100) > 3:
             classifier_name= classifier_name + "21"
 
