@@ -48,16 +48,16 @@ def submit_query():
 
         classifier_name = "SGD"
 
-        if TC21 == True:
+        if TC2100 == True:
             classifier_name= classifier_name + "21"
 
-        elif TC24 == True:
+        elif TC2400 == True:
             classifier_name = classifier_name + "24"
 
-        elif TC26 == True:
+        elif TC2600 == True:
             classifier_name = classifier_name + "26"
 
-        elif TC36 == True:
+        elif TC3600 == True:
             classifier_name = classifier_name + "36"
         
 
