@@ -46,7 +46,7 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        classifier_name = "SGD21"
+        classifier_name = "SGD2124"
         TC21 = ""
         TC24 = ""
         TC26 = ""
