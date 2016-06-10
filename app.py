@@ -46,21 +46,21 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        classifier_name = "SGD2124"
-        TC21 = ""
-        TC24 = ""
-        TC26 = ""
-        TC36 = ""
-        if len(TC21) > 3:
+        classifier_name = "SGD"
+        TC2100 = ""
+        TC2400 = ""
+        TC2600 = ""
+        TC3600 = ""
+        if len(TC2100) > 3:
             classifier_name= classifier_name + "21"
 
-        elif len(TC24) > 3:
+        elif len(TC2400) > 3:
             classifier_name = classifier_name + "24"
 
-        elif len(TC26) > 3:
+        elif len(TC2600) > 3:
             classifier_name = classifier_name + "26"
 
-        elif len(TC36) > 3:
+        elif len(TC3600) > 3:
             classifier_name = classifier_name + "36"
         
 
