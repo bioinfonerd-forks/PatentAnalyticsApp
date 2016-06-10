@@ -49,37 +49,24 @@ def submit_query():
         try:
             TC2100 = request.form['TC2100']
         except KeyError:
-            return render_template('query.html', error=KeyError)
+            TC2100 = ""
         
         try:
             TC2400 = request.form['TC2400']
         except KeyError:
-            return render_template('query.html', error=KeyError)
+            TC2400 = ""
         
         try:
             TC2600 = request.form['TC2600']
         except KeyError:
-            return render_template('query.html', error=KeyError)
+            TC2600 = ""
         
         try:
             TC3600 = request.form['TC3600']
         except KeyError:
-            return render_template('query.html', error=KeyError)
+            TC3600 = ""
 
-        classifier_name = "SGD"
-        
-        if len(TC2100) > 3:
-            classifier_name= classifier_name + "21"
-
-        if len(TC2400) > 3:
-            classifier_name = classifier_name + "24"
-
-        if len(TC2600) > 3:
-            classifier_name = classifier_name + "26"
-
-        if len(TC3600) > 3:
-            classifier_name = classifier_name + "36"
-
+        classifier_name = "SGD" + TC2100 + TC2400 + TC2600 + TC3600
         print(classifier_name)
 
         config = Config()
