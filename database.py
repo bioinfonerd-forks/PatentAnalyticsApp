@@ -48,7 +48,7 @@ class Database(object):
     def push_tfidf_models(self):
         models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         for model in models:
-            path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + model + ".dill"
+            path = """C:\\Users\\Billy\\Workspace2\\PatentAnalyticsApp\\models\\""" + model + ".dill"
             model_bson = self.serialize(open(path, 'rb'))
             database.put('feature-models', model, model_bson)
 
@@ -69,13 +69,13 @@ class Database(object):
         return tfidf
 
     def push_classifier(self):
-        classifier_name = "Perceptron2016-06-06"
-        path = """D:\\Workspace\\PatentAnalyticsApp\\models\\""" + classifier_name + ".dill"
+        classifier_name = "SGD21242636"
+        path = """C:\\Users\\Billy\\Workspace2\\PatentAnalyticsApp\\models\\""" + classifier_name + ".dill"
         classifier_serialized = self.serialize(open(path, 'rb'))
         database.put('classifiers', classifier_name, classifier_serialized)
 
-    def pull_classifier(self):
-        classifier_name = "Perceptron2016-06-06"
+    def pull_classifier(self, classifier_name):
+        # classifier_name = "Perceptron2016-06-06"
         db_model = self.get('classifiers', classifier_name)
         return self.deserialize(db_model['model'])
 

@@ -46,6 +46,21 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
+        classifier_name = "SGD"
+
+        if TC21 == True:
+            classifier_name= classifier_name + "21"
+
+        elif TC24 == True:
+            classifier_name = classifier_name + "24"
+
+        elif TC26 == True:
+            classifier_name = classifier_name + "26"
+
+        elif TC36 == True:
+            classifier_name = classifier_name + "36"
+        
+
         config = Config()
         database = Database(config)
         tfidf = database.pull_tfidf_models()
@@ -57,7 +72,7 @@ def submit_query():
         feature_vector = hstack([title_vector, abstract_vector])
         feature_vector = hstack([feature_vector, claims_vector])
 
-        classifier = database.pull_classifier()
+        classifier = database.pull_classifier(classifier_name)
         group = classifier.predict(feature_vector)
 
         return render_template('query2.html', group=group, title=title, abstract=abstract, claims=claims)
