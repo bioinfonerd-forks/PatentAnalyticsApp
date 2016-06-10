@@ -75,8 +75,7 @@ class Database(object):
         database.put('classifiers', classifier_name, classifier_serialized)
 
     def pull_classifier(self, classifier_name):
-        # classifier_name = "Perceptron2016-06-06"
-        classifier_name = "SGD21242636"
+        # classifier_name = "SGD21242636"
         db_model = self.get('classifiers', classifier_name)
         return self.deserialize(db_model['model'])
 
