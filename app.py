@@ -47,17 +47,20 @@ def submit_query():
             return render_template('query.html', error=KeyError)
 
         classifier_name = "SGD"
-
-        if TC2100 == True:
+        TC21 = ""
+        TC24 = ""
+        TC26 = ""
+        TC36 = ""
+        if len(TC21) > 3:
             classifier_name= classifier_name + "21"
 
-        elif TC2400 == True:
+        elif len(TC24) > 3:
             classifier_name = classifier_name + "24"
 
-        elif TC2600 == True:
+        elif len(TC26) > 3:
             classifier_name = classifier_name + "26"
 
-        elif TC3600 == True:
+        elif len(TC36) > 3:
             classifier_name = classifier_name + "36"
         
 
