@@ -71,15 +71,16 @@ def submit_query():
         if len(TC2100) > 3:
             classifier_name= classifier_name + "21"
 
-        elif len(TC2400) > 3:
+        if len(TC2400) > 3:
             classifier_name = classifier_name + "24"
 
-        elif len(TC2600) > 3:
+        if len(TC2600) > 3:
             classifier_name = classifier_name + "26"
 
-        elif len(TC3600) > 3:
+        if len(TC3600) > 3:
             classifier_name = classifier_name + "36"
-        
+
+        print(classifier_name)
 
         config = Config()
         database = Database(config)
@@ -99,4 +100,5 @@ def submit_query():
 
 if __name__ == '__main__':
     nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
-    app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
+    # app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
+    app.run()
