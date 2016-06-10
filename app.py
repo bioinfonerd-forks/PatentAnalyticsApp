@@ -100,5 +100,5 @@ def submit_query():
 
 if __name__ == '__main__':
     nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
-    # app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
-    app.run()
+    app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
+    # app.run()
