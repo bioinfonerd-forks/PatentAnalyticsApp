@@ -68,19 +68,16 @@ class Database(object):
             tfidf[model] = pickle.load(open(model_path, 'rb'))
         return tfidf
 
-    def push_classifier(self):
-        classifier_name = "SGD21242636"
-        path = """C:\\Users\\Billy\\Workspace2\\PatentAnalyticsApp\\models\\""" + classifier_name + ".dill"
+    def push_classifier(self, classifier_name):
+        path = self.config.model_dir + classifier_name + '.dill'
         classifier_serialized = self.serialize(open(path, 'rb'))
         database.put('classifiers', classifier_name, classifier_serialized)
 
     def pull_classifier(self, classifier_name):
-        # classifier_name = "SGD21242636"
         db_model = self.get('classifiers', classifier_name)
         return self.deserialize(db_model['model'])
 
-    def pull_classifier_local(self):
-        classifier_name = "SGD2016-06-05"
+    def pull_classifier_local(self, classifier_name):
         classifier_path = self.config.model_dir + '/' + classifier_name + '.dill'
         return pickle.load(open(classifier_path, 'rb'))
 
@@ -89,9 +86,9 @@ if __name__ == "__main__":
     config = Config()
     database = Database(config)
     # database.push_tfidf_models()
-    # tfidf = database.pull_tfidf_models()
-    database.push_classifier()
-    # classifier = database.pull_classifier()
+    tfidf = database.pull_tfidf_models()
+    # database.push_classifier()
+    classifier = database.pull_classifier("SGD21242636")
 
 
 
