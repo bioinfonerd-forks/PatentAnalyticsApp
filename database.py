@@ -87,8 +87,11 @@ if __name__ == "__main__":
     database = Database(config)
     # database.push_tfidf_models()
     tfidf = database.pull_tfidf_models()
+    classifier_name = "SGD21242636"
     # database.push_classifier()
-    classifier = database.pull_classifier("SGD21242636")
+    classifier = database.pull_classifier(classifier_name)
+    config.save_model(classifier, classifier_name)
+
 
 
 
