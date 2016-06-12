@@ -66,7 +66,8 @@ def submit_query():
         except KeyError:
             TC3600 = ""
 
-        classifier_name = "SGD" + TC2100 + TC2400 + TC2600 + TC3600
+        # classifier_name = "SGD" + TC2100 + TC2400 + TC2600 + TC3600
+        classifier_name = 'SGD21242636'
         print(classifier_name)
 
         config = Config()

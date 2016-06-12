@@ -48,7 +48,7 @@ class Database(object):
     def push_tfidf_models(self):
         models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         for model in models:
-            path = """C:\\Users\\Billy\\Workspace2\\PatentAnalyticsApp\\models\\""" + model + ".dill"
+            path = self.config.model_dir + "\\" + model + ".dill"
             model_bson = self.serialize(open(path, 'rb'))
             database.put('feature-models', model, model_bson)
 
@@ -64,12 +64,12 @@ class Database(object):
         models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         tfidf = dict()
         for model in models:
-            model_path = self.config.model_dir + '/' + model + '.dill'
+            model_path = self.config.model_dir + '/' + model
             tfidf[model] = pickle.load(open(model_path, 'rb'))
         return tfidf
 
     def push_classifier(self, classifier_name):
-        path = self.config.model_dir + classifier_name + '.dill'
+        path = self.config.model_dir + "\\" + classifier_name
         classifier_serialized = self.serialize(open(path, 'rb'))
         database.put('classifiers', classifier_name, classifier_serialized)
 
@@ -78,7 +78,7 @@ class Database(object):
         return self.deserialize(db_model['model'])
 
     def pull_classifier_local(self, classifier_name):
-        classifier_path = self.config.model_dir + '/' + classifier_name + '.dill'
+        classifier_path = self.config.model_dir + '/' + classifier_name
         return pickle.load(open(classifier_path, 'rb'))
 
 
@@ -86,11 +86,11 @@ if __name__ == "__main__":
     config = Config()
     database = Database(config)
     # database.push_tfidf_models()
-    tfidf = database.pull_tfidf_models()
+    # tfidf = database.pull_tfidf_models()
     classifier_name = "SGD21242636"
-    # database.push_classifier()
-    classifier = database.pull_classifier(classifier_name)
-    config.save_model(classifier, classifier_name)
+    database.push_classifier(classifier_name)
+    # classifier = database.pull_classifier(classifier_name)
+    # config.save_model(classifier, classifier_name)
 
 
 
