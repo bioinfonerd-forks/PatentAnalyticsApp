@@ -62,8 +62,11 @@ def submit_query():
         classifier = database.pull_classifier(classifier_name)
         group = classifier.predict(feature_vector)
         probs = classifier._predict_proba_lr(feature_vector)
-
-        return render_template('results.html', group=group, probs=probs,
+        groups = classifier.classes_
+        results = dict()
+        for i, clas in enumerate(groups):
+            results[clas] = probs[0][i]
+        return render_template('results.html', group=group, results=sorted(results.items()),
                                title=title, abstract=abstract, claims=claims)
 
 if __name__ == '__main__':
