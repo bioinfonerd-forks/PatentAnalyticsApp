@@ -1,0 +1,37 @@
+<!doctype html>
+<title>Art Unit Classifier App</title>
+<head>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+<script type="text/javascript" color="0,100,200" opacity="0.5" src="http://www.freecodeformat.com/js/canvas-nest.min.js"></script>
+<div class="container">
+<h1>
+    Welcome to the Patent Art Unit Classification System
+</h1>
+
+    <div class="container_right">
+        {% if error %}
+    <h2><font color="red">{{ error }}</font></h2>
+    {% endif %}
+
+    <p>Classified Group: <font color="green">{{ group[0] }}</font></p>
+    <p> Confidence: {{ probs }}</p>
+
+
+    </div>
+
+    <div class="container2">
+        <p>Title: {{ title }}</p>
+        <p>Abstract: {{ abstract }}</p>
+        <p>Claims: {{ claims }}</p>
+
+    </div>
+
+
+
+</div>
+
+</body>

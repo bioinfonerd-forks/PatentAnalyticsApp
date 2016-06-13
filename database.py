@@ -87,9 +87,10 @@ if __name__ == "__main__":
     database = Database(config)
     # database.push_tfidf_models()
     # tfidf = database.pull_tfidf_models()
-    classifier_name = "SGD21242636"
-    database.push_classifier(classifier_name)
-    # classifier = database.pull_classifier(classifier_name)
+    classifier_name = "Perceptron2016-06-11"
+    # database.push_classifier(classifier_name)
+    classifier = database.pull_classifier(classifier_name)
+    classifier._predict_proba_lr()
     # config.save_model(classifier, classifier_name)
 
 

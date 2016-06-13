@@ -45,30 +45,8 @@ def submit_query():
             claims = request.form['claims']
         except KeyError:
             return render_template('query.html', error=KeyError)
-            
-        try:
-            TC2100 = request.form['TC2100']
-        except KeyError:
-            TC2100 = ""
-        
-        try:
-            TC2400 = request.form['TC2400']
-        except KeyError:
-            TC2400 = ""
-        
-        try:
-            TC2600 = request.form['TC2600']
-        except KeyError:
-            TC2600 = ""
-        
-        try:
-            TC3600 = request.form['TC3600']
-        except KeyError:
-            TC3600 = ""
 
-        # classifier_name = "SGD" + TC2100 + TC2400 + TC2600 + TC3600
-        classifier_name = 'SGD21242636'
-        print(classifier_name)
+        classifier_name = 'Perceptron2016-06-11'
 
         config = Config()
         database = Database(config)
@@ -83,10 +61,11 @@ def submit_query():
 
         classifier = database.pull_classifier(classifier_name)
         group = classifier.predict(feature_vector)
+        probs = classifier._predict_proba_lr(feature_vector)
 
-        return render_template('query2.html', group=group, title=title, abstract=abstract, claims=claims)
+        return render_template('results.html', group=group, probs=probs,
+                               title=title, abstract=abstract, claims=claims)
 
 if __name__ == '__main__':
     nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
     app.run(host='0.0.0.0', port=int(environ.get("PORT", 5000)))
-    # app.run()
