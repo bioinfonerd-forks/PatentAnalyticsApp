@@ -46,51 +46,48 @@ class Database(object):
         return bytes.read().decode()
 
     def push_tfidf_models(self):
-        models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
-        for model in models:
-            path = self.config.model_dir + "\\" + model + ".dill"
+        for model in self.config.models:
+            path = self.config.model_dir + "\\" + model + self.config.model_suffix
             model_bson = self.serialize(open(path, 'rb'))
-            database.put('feature-models', model, model_bson)
+            database.put('models', model, model_bson)
 
     def pull_tfidf_models(self):
-        models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         tfidf = dict()
-        for model in models:
-            db_model = self.get('feature-models', model)
+        for model in self.config.models:
+            db_model = self.get('models', model)
             tfidf[model] = self.deserialize(db_model['model'])
         return tfidf
 
     def pull_tfidf_models_local(self):
-        models = ["title_feature_model", "abstract_feature_model", "claims_feature_model"]
         tfidf = dict()
-        for model in models:
+        for model in self.config.models:
             model_path = self.config.model_dir + '/' + model
             tfidf[model] = pickle.load(open(model_path, 'rb'))
         return tfidf
 
-    def push_classifier(self, classifier_name):
-        path = self.config.model_dir + "\\" + classifier_name
+    def push_classifier(self):
+        path = self.config.model_dir + "\\" + self.config.classifier_name + self.config.model_suffix
         classifier_serialized = self.serialize(open(path, 'rb'))
-        database.put('classifiers', classifier_name, classifier_serialized)
+        database.put('models', self.config.classifier_name, classifier_serialized)
 
-    def pull_classifier(self, classifier_name):
-        db_model = self.get('classifiers', classifier_name)
+    def pull_classifier(self):
+        db_model = self.get('models', self.config.classifier_name)
         return self.deserialize(db_model['model'])
 
-    def pull_classifier_local(self, classifier_name):
-        classifier_path = self.config.model_dir + '/' + classifier_name
+    def pull_classifier_local(self):
+        classifier_path = self.config.model_dir + '/' + self.config.classifier_name + self.config.model_suffix
         return pickle.load(open(classifier_path, 'rb'))
 
 
 if __name__ == "__main__":
     config = Config()
     database = Database(config)
-    # database.push_tfidf_models()
-    # tfidf = database.pull_tfidf_models()
-    classifier_name = "Perceptron2016-06-11"
-    # database.push_classifier(classifier_name)
-    classifier = database.pull_classifier(classifier_name)
-    classifier._predict_proba_lr()
+    database.push_tfidf_models()
+    database.push_classifier()
+
+    tfidf = database.pull_tfidf_models()
+    classifier = database.pull_classifier()
+    # classifier._predict_proba_lr()
     # config.save_model(classifier, classifier_name)
 
 

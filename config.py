@@ -7,7 +7,9 @@ class Config(object):
         self.base_dir = os.path.dirname(os.path.abspath(__file__))
         self.model_dir = os.path.join(self.base_dir, 'models')
         self.MONGODB_URI = 'mongodb://mongo_test_user:testtest0@ds021333.mlab.com:21333/heroku_bx11p419'
-
+        self.model_suffix = '2016-06-18.dill'
+        self.models = ["title", "abstract", "claims"]
+        self.classifier_name = 'SGD-243621-'
 
     def save_model(self, model, name):
         path = os.path.join(self.model_dir, name)

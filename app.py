@@ -46,20 +46,19 @@ def submit_query():
         except KeyError:
             return render_template('query.html', error=KeyError)
 
-        classifier_name = 'Perceptron2016-06-11'
 
         config = Config()
         database = Database(config)
         tfidf = database.pull_tfidf_models()
 
-        title_vector = tfidf['title_feature_model'].transform([title])
-        abstract_vector = tfidf['abstract_feature_model'].transform([abstract])
-        claims_vector = tfidf['claims_feature_model'].transform([claims])
+        title_vector = tfidf['title'].transform([title])
+        abstract_vector = tfidf['abstract'].transform([abstract])
+        claims_vector = tfidf['claims'].transform([claims])
 
         feature_vector = hstack([title_vector, abstract_vector])
         feature_vector = hstack([feature_vector, claims_vector])
 
-        classifier = database.pull_classifier(classifier_name)
+        classifier = database.pull_classifier()
         group = classifier.predict(feature_vector)
         probs = classifier._predict_proba_lr(feature_vector)
         groups = classifier.classes_
