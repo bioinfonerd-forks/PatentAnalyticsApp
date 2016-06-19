@@ -20,7 +20,7 @@ basic_auth = BasicAuth(app)
 @app.route('/')
 @basic_auth.required
 def home():
-    return render_template('query.html')
+    return render_template('results.html')
 
 
 @app.route('/results', methods=['POST', 'GET'])
