@@ -68,7 +68,7 @@ def submit_query():
         return render_template('results.html', group=group, results=sorted(results.items()),
                                title=title, abstract=abstract, claims=claims)
                                
-@app.route('/query2', methods=['POST', 'GET'])
+@app.route('/results', methods=['POST', 'GET'])
 @basic_auth.required
 def submit_query2():
     title = None
