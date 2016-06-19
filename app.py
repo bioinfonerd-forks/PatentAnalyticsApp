@@ -68,50 +68,7 @@ def submit_query():
         return render_template('results.html', group=group, results=sorted(results.items()),
                                title=title, abstract=abstract, claims=claims)
                                
-@app.route('/results', methods=['POST', 'GET'])
-@basic_auth.required
-def submit_query2():
-    title = None
-    abstract = None
-    claims = None
 
-    if request.method == 'POST':
-        try:
-            title = request.form['title']
-        except KeyError:
-            return render_template('query.html', error=KeyError)
-
-        try:
-            abstract = request.form['abstract']
-        except KeyError:
-            return render_template('query.html', error=KeyError)
-
-        try:
-            claims = request.form['claims']
-        except KeyError:
-            return render_template('query.html', error=KeyError)
-
-
-        config = Config()
-        database = Database(config)
-        tfidf = database.pull_tfidf_models()
-
-        title_vector = tfidf['title'].transform([title])
-        abstract_vector = tfidf['abstract'].transform([abstract])
-        claims_vector = tfidf['claims'].transform([claims])
-
-        feature_vector = hstack([title_vector, abstract_vector])
-        feature_vector = hstack([feature_vector, claims_vector])
-
-        classifier = database.pull_classifier()
-        group = classifier.predict(feature_vector)
-        probs = classifier._predict_proba_lr(feature_vector)
-        groups = classifier.classes_
-        results = dict()
-        for i, clas in enumerate(groups):
-            results[clas] = probs[0][i] 
-        return render_template('results.html', group=group, results=sorted(results.items()),
-                               title=title, abstract=abstract, claims=claims)
 
 if __name__ == '__main__':
     nltk.data.path.append(path.join(Config().base_dir, 'nltk_data'))
