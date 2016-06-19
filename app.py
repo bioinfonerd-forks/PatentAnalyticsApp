@@ -23,7 +23,7 @@ def home():
     return render_template('query.html')
 
 
-@app.route('/query', methods=['POST', 'GET'])
+@app.route('/results', methods=['POST', 'GET'])
 @basic_auth.required
 def submit_query():
     title = None
