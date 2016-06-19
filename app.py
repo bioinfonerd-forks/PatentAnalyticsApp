@@ -64,7 +64,7 @@ def submit_query():
         groups = classifier.classes_
         results = dict()
         for i, clas in enumerate(groups):
-            results[clas] = int(probs[0][i])
+            results[clas] = probs[0][i]
         return render_template('results.html', group=group, results=sorted(results.items()),
                                title=title, abstract=abstract, claims=claims)
 
