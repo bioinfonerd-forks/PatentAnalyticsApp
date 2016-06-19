@@ -50,13 +50,13 @@
         
         <p>Classified Group: <font color="green"><b>{{ group[0] }}00</b></font></p>
         <hr>
-        
+        <form action="/query" method="POST">
         <div id="content">
              <p><h3>Title:</h3><textarea rows="4" cols="77" name=title >{{ title }}</textarea></p>
              <p><h3>Abstract:</h3><textarea rows="10" cols="77" name=abstract >{{ abstract }}</textarea></p>
              <p><h3>First Independent Claim:</h3><textarea rows="20" cols="77" type=text name=claims >{{ claims }}</textarea></p>
              <div id="submit-button">
-                <input type=submit value=Submit2 class="graphite-flat-button"/>
+                <input type=submit value=Submit class="graphite-flat-button"/>
              </div>
     </div>
 
