@@ -65,7 +65,7 @@ def submit_query():
         results = dict()
         for i, clas in enumerate(groups):
             results[clas] = probs[0][i]
-        return render_template('results.html', group=group, results=sorted(results.items()),
+        return render_template('results.html', group=group, results=int(sorted(results.items())),
                                title=title, abstract=abstract, claims=claims)
 
 if __name__ == '__main__':
